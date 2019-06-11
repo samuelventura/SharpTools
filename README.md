@@ -1,5 +1,5 @@
 
-# C# Tools & Patters
+# C# Tools
 
 ## Development Environment
 
