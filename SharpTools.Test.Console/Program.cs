@@ -12,7 +12,7 @@ namespace SharpTools
         {
             //A fatal error was encountered. The library 'hostpolicy.dll' required to execute the application was not found in 'C:\Program Files\dotnet'.
             //Problem is SharpTools.Test.Console.runtimeconfig.json is not being copied to output folder
-            //It gets generated in SharpTools.Test.Console/bin/Debug/netcoreapp3.0 but carried to SharpTools.Test/bin/Debug/netcoreapp3.0
+            //It gets generated in SharpTools.Test.Console/bin/Debug/netcoreapp3.0 but not carried to SharpTools.Test/bin/Debug/netcoreapp3.0
             var rtcExecuting = Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, ".runtimeconfig.json"); //SharpTools.Test.Console
             var rtcCalling = Path.ChangeExtension(Assembly.GetCallingAssembly().Location, ".runtimeconfig.json"); //SharpTools.Test
             if (!File.Exists(rtcExecuting)) File.Copy(rtcCalling, rtcExecuting);
@@ -23,7 +23,7 @@ namespace SharpTools
             p.StartInfo.RedirectStandardInput = true;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.Arguments = arguments;
-            //Get DLL extension!
+            //Gets DLL extension!
             //C:\Users\samuel\Documents\github\SharpTools\SharpTools.Test\bin\Debug\netcoreapp3.0\SharpTools.Test.Console.dll
             p.StartInfo.FileName = Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, ".exe");
             p.Start();
@@ -55,7 +55,6 @@ namespace SharpTools
                         break;
                 }
             }
-            Console.Out.Flush();
         }
 
         private static void RunExecutable(string[] args)

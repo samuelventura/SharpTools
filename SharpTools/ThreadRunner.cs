@@ -12,7 +12,7 @@ namespace SharpTools
         private readonly Action idle;
         private volatile bool disposed;
 
-        public ThreadRunner(string name, Action<Exception> catcher = null, Action idle = null)
+        public ThreadRunner(string name = null, Action<Exception> catcher = null, Action idle = null)
         {
             this.catcher = catcher;
             this.idle = idle;
