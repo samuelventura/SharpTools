@@ -8,6 +8,23 @@ namespace SharpTools
 {
     public static class Program
     {
+        public static string FixExtension(string path)
+        {
+            if (Platform.IsWindows())
+            {
+                return Path.ChangeExtension(path, ".exe");
+            }
+            if (Platform.IsMacOS())
+            {
+                return Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            }
+            if (Platform.IsLinux())
+            {
+                return Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            }
+            return path;
+        }
+
         public static string[] Run(string arguments)
         {
             //A fatal error was encountered. The library 'hostpolicy.dll' required to execute the application was not found in 'C:\Program Files\dotnet'.
@@ -25,7 +42,8 @@ namespace SharpTools
             p.StartInfo.Arguments = arguments;
             //Gets DLL extension!
             //C:\Users\samuel\Documents\github\SharpTools\SharpTools.Test\bin\Debug\netcoreapp3.0\SharpTools.Test.Console.dll
-            p.StartInfo.FileName = Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, ".exe");
+            p.StartInfo.FileName = FixExtension(Assembly.GetExecutingAssembly().Location);
+            Console.WriteLine(p.StartInfo.FileName);
             p.Start();
             p.WaitForExit();
             var output = p.StandardOutput.ReadToEnd();

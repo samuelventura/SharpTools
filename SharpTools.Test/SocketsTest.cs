@@ -22,12 +22,11 @@ namespace SharpTools
         [Test]
         public void TimeoutTest()
         {
-            var listener = new TcpListener(IPAddress.Loopback, 0);
-            listener.Start();
-            var ep = listener.LocalEndpoint as IPEndPoint;
-            listener.Stop();
-            var ex = Assert.Throws<Exception>(() => { Sockets.ConnectWithTimeout(ep.Address.ToString(), ep.Port, 1); });
-            Assert.AreEqual(string.Format("Timeout connecting to 127.0.0.1:{0}", ep.Port), ex.Message);
+            //Windows Timeout connecting to 127.0.0.1:XXXX
+            //MacOS System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (61): Connection refused [::ffff:127.0.0.1]:49653
+            //Better to point to a local-only endpoint
+            var ex = Assert.Throws<Exception>(() => { Sockets.ConnectWithTimeout("10.77.0.99", 9999, 1); });
+            Assert.AreEqual("Timeout connecting to 10.77.0.99:9999", ex.Message);
         }
     }
 }
