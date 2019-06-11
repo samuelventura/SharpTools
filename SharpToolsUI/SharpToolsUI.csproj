@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>net40;netcoreapp3.0</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <PackageId>SharpToolsUI</PackageId>
+    <PackageVersion>1.0.10.0</PackageVersion>
+    <Description>C# Tools</Description>
+    <Authors>Samuel Ventura</Authors>
+    <PackageProjectUrl>https://github.com/samuelventura/SharpTools</PackageProjectUrl>  
+    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>  
+    <PackageTags></PackageTags>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpTools\SharpTools.csproj"/>  
+  </ItemGroup>
+
+</Project>
