@@ -39,7 +39,7 @@ namespace SharpToolsUI
         {
             Console.WriteLine(string.Format("{0} {1}", ex.GetType(), ex.Message));
             Thrower.Dump(ex);
-            Application.Exit();
+            Environment.Exit(1);
         }
 
         [STAThread]

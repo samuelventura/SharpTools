@@ -10,6 +10,8 @@ namespace SharpTools
     {
         public static string FixExtension(string path)
         {
+            //core3 creates exes in win and no extension in unix
+            //core2 creats dlls everywhere
             if (Platform.IsWindows())
             {
                 return Path.ChangeExtension(path, ".exe");
@@ -43,7 +45,7 @@ namespace SharpTools
             //Gets DLL extension!
             //C:\Users\samuel\Documents\github\SharpTools\SharpTools.Test\bin\Debug\netcoreapp3.0\SharpTools.Test.Console.dll
             p.StartInfo.FileName = FixExtension(Assembly.GetExecutingAssembly().Location);
-            Console.WriteLine(p.StartInfo.FileName);
+            //Console.WriteLine(p.StartInfo.FileName);
             p.Start();
             p.WaitForExit();
             var output = p.StandardOutput.ReadToEnd();
