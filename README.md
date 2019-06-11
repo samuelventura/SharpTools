@@ -4,9 +4,9 @@
 ## Development Environment
 
 * Windows 10 Pro
-* Visual Studio Code
-* .NET Core SDK 2.1.500
 * .NET Core SDK 3.0.100-preview5-011568
+* Visual Studio Code with Bash terminal
+* Git for Windows + TortoiseGit
 
 ## Development Cycle
 
@@ -18,3 +18,8 @@
 * https://www.nuget.org/account/apikeys
 * ```find . -name bin -exec rm -fr {} \;```
 * ```find . -name obj -exec rm -fr {} \;```
+
+## Improvement Ideas
+
+* Unhandled exception catcher for console apps
+* Fluent API for constructors with many arguments
