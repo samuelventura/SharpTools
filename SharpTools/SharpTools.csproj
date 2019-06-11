@@ -7,7 +7,7 @@
     <Description>C# Tools</Description>
     <Authors>Samuel Ventura</Authors>
     <PackageProjectUrl>https://github.com/samuelventura/SharpTools</PackageProjectUrl>  
-    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>  
+    <License>https://www.apache.org/licenses/LICENSE-2.0</License>  
     <PackageTags></PackageTags>    
   </PropertyGroup>
 
