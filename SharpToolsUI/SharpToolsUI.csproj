@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net40;netcoreapp3.0</TargetFrameworks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>SharpToolsUI</PackageId>
-    <PackageVersion>1.0.10.0</PackageVersion>
+    <PackageVersion>1.0.11.0</PackageVersion>
     <Description>C# Tools</Description>
     <Authors>Samuel Ventura</Authors>
     <PackageProjectUrl>https://github.com/samuelventura/SharpTools</PackageProjectUrl>  
