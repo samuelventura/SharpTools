@@ -52,6 +52,8 @@ namespace SharpTools
             {
                 if (idle == null)
                 {
+                    var action = idle;
+
                     lock (queue)
                     {
                         if (queue.Count == 0)
@@ -60,9 +62,13 @@ namespace SharpTools
                         }
                         if (queue.Count > 0)
                         {
-                            var action = queue.Dequeue();
-                            Catcher.Try(action, catcher);
+                            action = queue.Dequeue();
                         }
+                    }
+
+                    if (action != null)
+                    {
+                        Catcher.Try(action, catcher);
                     }
                 }
                 else
