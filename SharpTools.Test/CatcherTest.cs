@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpTools
 {
-    [TestFixture]
     public class CatcherTest
     {
-        [Test]
+        [Fact]
         public void StaticIgnoreTest()
         {
             Catcher.Try(
@@ -18,7 +17,7 @@ namespace SharpTools
             );
         }
 
-        [Test]
+        [Fact]
         public void InstanceIgnoreTest()
         {
             var catcher = new Catcher();
@@ -30,7 +29,7 @@ namespace SharpTools
             );
         }
 
-        [Test]
+        [Fact]
         public void StaticHandleTest()
         {
             var exceptions = new List<Exception>();
@@ -47,10 +46,11 @@ namespace SharpTools
                 }
             );
 
-            Assert.AreEqual(1, exceptions.Count);
-            Assert.AreEqual("Error on Action!", exceptions[0].Message);
+            Assert.Equal(1, exceptions.Count);
+            Assert.Equal("Error on Action!", exceptions[0].Message);
         }
 
+        [Fact]
         public void InstanceHandleTest()
         {
             var exceptions = new List<Exception>();
@@ -69,8 +69,8 @@ namespace SharpTools
                 }
             );
 
-            Assert.AreEqual(1, exceptions.Count);
-            Assert.AreEqual("Error on Action!", exceptions[0].Message);
+            Assert.Equal(1, exceptions.Count);
+            Assert.Equal("Error on Action!", exceptions[0].Message);
         }
     }
 }

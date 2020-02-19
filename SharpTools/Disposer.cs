@@ -1,16 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 
 namespace SharpTools
 {
     public class Disposer : IDisposable
     {
+        private readonly Action<Exception> handler;
         private readonly Stack<Action> actions;
 
-        public Disposer(params Action[] actions)
+        public Disposer(Action<Exception> handler = null)
         {
-            this.actions = new Stack<Action>(actions);
+            this.handler = handler;
+            this.actions = new Stack<Action>();
+        }
+
+        public Disposer Clear()
+        {
+            var array = actions.ToArray();
+            actions.Clear();
+            Array.Reverse(array);
+            var disposer = new Disposer();
+            foreach (var action in array)
+            {
+                disposer.actions.Push(action);
+            }
+            return disposer;
         }
 
         public void Add(IDisposable disposable)
@@ -27,13 +41,13 @@ namespace SharpTools
         {
             while (actions.Count > 0)
             {
-                Catcher.Try(actions.Pop());
+                Catcher.Try(actions.Pop(), handler);
             }
         }
 
-        public static void Dispose(IDisposable disposable)
+        public static void Dispose(IDisposable disposable, Action<Exception> handler = null)
         {
-            Catcher.Try(() => { disposable?.Dispose(); });
+            Catcher.Try(() => { disposable?.Dispose(); }, handler);
         }
     }
 }

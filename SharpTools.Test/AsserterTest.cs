@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpTools
 {
-    [TestFixture]
     public class AsserterTest
     {
-        [Test]
+        [Fact]
         public void AssertTest()
         {
             var exceptions = new List<Exception>();
@@ -17,9 +16,9 @@ namespace SharpTools
             try { Asserter.IsFalse(true, "IsFalse={0}", true); } catch (Exception ex) { exceptions.Add(ex); }
             try { Asserter.IsFalse(false, "IsFalse={0}", false); } catch (Exception ex) { exceptions.Add(ex); }
 
-            Assert.AreEqual(2, exceptions.Count);
-            Assert.AreEqual("IsTrue=False", exceptions[0].Message);
-            Assert.AreEqual("IsFalse=True", exceptions[1].Message);
+            Assert.Equal(2, exceptions.Count);
+            Assert.Equal("IsTrue=False", exceptions[0].Message);
+            Assert.Equal("IsFalse=True", exceptions[1].Message);
         }
     }
 }

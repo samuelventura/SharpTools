@@ -1,18 +1,17 @@
 using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpTools
 {
-    [TestFixture]
     public class NamedTest
     {
-        [Test]
+        [Fact]
         public void BasicTest()
         {
             var named = new Named("Name", "Payload");
 
-            Assert.AreEqual("Name", named.Name);
-            Assert.AreEqual("Payload", named.Payload);
+            Assert.Equal("Name", named.Name);
+            Assert.Equal("Payload", named.Payload);
         }
     }
 }

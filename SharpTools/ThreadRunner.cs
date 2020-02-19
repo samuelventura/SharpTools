@@ -6,22 +6,34 @@ namespace SharpTools
 {
     public class ThreadRunner : IDisposable
     {
+        public class Args
+        {
+            public string ProcessName;
+            public int IdleDelay;
+            public Action IdleAction;
+            public Action<Exception> ExceptionHandler;
+        }
+
         private readonly Action<Exception> catcher;
         private readonly Queue<Action> queue;
         private readonly Thread thread;
         private readonly Action idle;
+        private readonly int delay;
         private volatile bool disposed;
 
-        public ThreadRunner(string name = null, Action<Exception> catcher = null, Action idle = null)
+        public ThreadRunner(Args args = null)
         {
-            this.catcher = catcher;
-            this.idle = idle;
+            args = args ?? new Args();
+            this.catcher = args.ExceptionHandler;
+            this.idle = args.IdleAction;
+            this.delay = Math.Max(0, args.IdleDelay);
+            if (this.idle == null) this.delay = -1;
 
             queue = new Queue<Action>();
 
             thread = new Thread(Loop);
             thread.IsBackground = true;
-            thread.Name = name;
+            thread.Name = args.ProcessName;
             thread.Start();
         }
 
@@ -50,39 +62,22 @@ namespace SharpTools
         {
             while (!disposed)
             {
-                if (idle == null)
+                var action = idle;
+
+                lock (queue)
                 {
-                    var action = idle;
-
-                    lock (queue)
+                    if (queue.Count == 0)
                     {
-                        if (queue.Count == 0)
-                        {
-                            Monitor.Wait(queue);
-                        }
-                        if (queue.Count > 0)
-                        {
-                            action = queue.Dequeue();
-                        }
+                        Monitor.Wait(queue, delay);
                     }
-
-                    if (action != null)
+                    if (queue.Count > 0)
                     {
-                        Catcher.Try(action, catcher);
+                        action = queue.Dequeue();
                     }
                 }
-                else
+
+                if (action != null)
                 {
-                    var action = idle;
-
-                    lock (queue)
-                    {
-                        if (queue.Count > 0)
-                        {
-                            action = queue.Dequeue();
-                        }
-                    }
-
                     Catcher.Try(action, catcher);
                 }
             }

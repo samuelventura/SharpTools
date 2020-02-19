@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpTools
 {
-    [TestFixture]
     public class ThreadRunnerTest
     {
-        [Test]
+        [Fact]
         public void IdleTest()
         {
             var errors = new List<Exception>();
@@ -26,10 +25,10 @@ namespace SharpTools
             runner.Dispose();
 
             Assert.IsTrue(errors.Count > 0);
-            Assert.AreEqual("Idle", errors[0].Message);
+            Assert.Equal("Idle", errors[0].Message);
         }
 
-        [Test]
+        [Fact]
         public void CatcherTest()
         {
             var errors = new List<Exception>();
@@ -43,12 +42,12 @@ namespace SharpTools
             runner.Run(() => { throw new Exception("Second"); });
             runner.Dispose();
 
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual("First", errors[0].Message);
-            Assert.AreEqual("Second", errors[1].Message);
+            Assert.Equal(2, errors.Count);
+            Assert.Equal("First", errors[0].Message);
+            Assert.Equal("Second", errors[1].Message);
         }
 
-        [Test]
+        [Fact]
         public void DisposeUsingTest()
         {
             var errors = new List<Exception>();
@@ -58,11 +57,11 @@ namespace SharpTools
                 runner.Run(() => { throw new Exception("First"); });
             }
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("First", errors[0].Message);
+            Assert.Equal(1, errors.Count);
+            Assert.Equal("First", errors[0].Message);
         }
 
-        [Test]
+        [Fact]
         public void DisposeExplicitTest()
         {
             var errors = new List<Exception>();
@@ -72,11 +71,11 @@ namespace SharpTools
             runner.Dispose();
             runner.Dispose(() => { throw new Exception("Already Disposed"); });
 
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual("First", errors[0].Message);
+            Assert.Equal(1, errors.Count);
+            Assert.Equal("First", errors[0].Message);
         }
 
-        [Test]
+        [Fact]
         public void DisposeWithActionTest()
         {
             var errors = new List<Exception>();
@@ -86,9 +85,9 @@ namespace SharpTools
             runner.Dispose(() => { throw new Exception("Second"); });
             runner.Dispose(() => { throw new Exception("Already Disposed"); });
 
-            Assert.AreEqual(2, errors.Count);
-            Assert.AreEqual("First", errors[0].Message);
-            Assert.AreEqual("Second", errors[1].Message);
+            Assert.Equal(2, errors.Count);
+            Assert.Equal("First", errors[0].Message);
+            Assert.Equal("Second", errors[1].Message);
         }
     }
 }

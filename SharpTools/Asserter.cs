@@ -14,5 +14,15 @@ namespace SharpTools
         {
             if (condition) Thrower.Throw(format, args);
         }
+
+        public static void IsNull(object condition, string format, params object[] args)
+        {
+            if (condition != null) Thrower.Throw(format, args);
+        }
+
+        public static void IsNotNull(object condition, string format, params object[] args)
+        {
+            if (condition == null) Thrower.Throw(format, args);
+        }
     }
 }

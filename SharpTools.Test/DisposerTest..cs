@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpTools
 {
-    [TestFixture]
     public class DisposerTest
     {
         private class DisposeWithException : IDisposable
@@ -24,7 +23,7 @@ namespace SharpTools
         }
 
 
-        [Test]
+        [Fact]
         public void StaticDisposeTest()
         {
             Disposer.Dispose(null);
@@ -32,7 +31,7 @@ namespace SharpTools
         }
 
 
-        [Test]
+        [Fact]
         public void InstanceDisposeTest()
         {
             var strings = new List<string>();
@@ -44,10 +43,10 @@ namespace SharpTools
             disposer.Add(new DisposeWithException(() => { strings.Add("Third"); }));
             disposer.Dispose();
 
-            Assert.AreEqual(3, strings.Count);
-            Assert.AreEqual("Third", strings[0]);
-            Assert.AreEqual("Second", strings[1]);
-            Assert.AreEqual("First", strings[2]);
+            Assert.Equal(3, strings.Count);
+            Assert.Equal("Third", strings[0]);
+            Assert.Equal("Second", strings[1]);
+            Assert.Equal("First", strings[2]);
         }
     }
 }

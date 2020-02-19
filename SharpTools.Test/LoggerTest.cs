@@ -2,11 +2,10 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpTools
 {
-    [TestFixture]
     public class LoggerTest
     {
         private class StringAppender : ILogAppender
@@ -28,7 +27,7 @@ namespace SharpTools
             }
         }
 
-        [Test]
+        [Fact]
         public void BasicTest()
         {
             var appender = new StringAppender();
@@ -46,15 +45,15 @@ namespace SharpTools
                 logger.Success("Message {0}", 5);
             }
 
-            Assert.AreEqual(5, appender.Logs.Count);
-            Assert.AreEqual("DEBUG N$AME Message 1", appender.Logs[0].Line);
-            Assert.AreEqual("INFO N$AME Message 2", appender.Logs[1].Line);
-            Assert.AreEqual("WARN N$AME Message 3", appender.Logs[2].Line);
-            Assert.AreEqual("ERROR N$AME Message 4", appender.Logs[3].Line);
-            Assert.AreEqual("SUCCESS N$AME Message 5", appender.Logs[4].Line);
+            Assert.Equal(5, appender.Logs.Count);
+            Assert.Equal("DEBUG N$AME Message 1", appender.Logs[0].Line);
+            Assert.Equal("INFO N$AME Message 2", appender.Logs[1].Line);
+            Assert.Equal("WARN N$AME Message 3", appender.Logs[2].Line);
+            Assert.Equal("ERROR N$AME Message 4", appender.Logs[3].Line);
+            Assert.Equal("SUCCESS N$AME Message 5", appender.Logs[4].Line);
         }
 
-        [Test]
+        [Fact]
         public void AppenderExceptionTest()
         {
             var appender = new ExceptionAppender();
@@ -72,13 +71,13 @@ namespace SharpTools
                 logger.Success("Message {0}", 5);
             }
 
-            Assert.AreEqual(2, appender.Logs.Count);
-            Assert.AreEqual("DEBUG N$AME Message 1", appender.Logs[0].Line);
-            Assert.AreEqual("INFO N$AME Message 2", appender.Logs[1].Line);
+            Assert.Equal(2, appender.Logs.Count);
+            Assert.Equal("DEBUG N$AME Message 1", appender.Logs[0].Line);
+            Assert.Equal("INFO N$AME Message 2", appender.Logs[1].Line);
             //discarded from WARN on
         }
 
-        [Test]
+        [Fact]
         public void ThreadTimestampVerbosityTest()
         {
             var appender = new StringAppender();
@@ -92,25 +91,25 @@ namespace SharpTools
                 logger.Debug(1, "Message {0}", 2);
             }
 
-            Assert.AreEqual(2, appender.Logs.Count);
-            Assert.AreEqual(Thread.CurrentThread.Name + " 0 2019-01-02 23:24:25.876 Message 1", appender.Logs[0].Line);
-            Assert.AreEqual(Thread.CurrentThread.Name + " 1 2019-01-02 23:24:25.876 Message 2", appender.Logs[1].Line);
+            Assert.Equal(2, appender.Logs.Count);
+            Assert.Equal(Thread.CurrentThread.Name + " 0 2019-01-02 23:24:25.876 Message 1", appender.Logs[0].Line);
+            Assert.Equal(Thread.CurrentThread.Name + " 1 2019-01-02 23:24:25.876 Message 2", appender.Logs[1].Line);
         }
 
-        [Test]
+        [Fact]
         public void ConsoleAppenderTest()
         {
             var lines = Program.Run("Logger");
 
-            Assert.AreEqual(5, lines.Length);
-            Assert.AreEqual("DEBUG N$AME Message 1", lines[0]);
-            Assert.AreEqual("INFO N$AME Message 2", lines[1]);
-            Assert.AreEqual("WARN N$AME Message 3", lines[2]);
-            Assert.AreEqual("ERROR N$AME Message 4", lines[3]);
-            Assert.AreEqual("SUCCESS N$AME Message 5", lines[4]);
+            Assert.Equal(5, lines.Length);
+            Assert.Equal("DEBUG N$AME Message 1", lines[0]);
+            Assert.Equal("INFO N$AME Message 2", lines[1]);
+            Assert.Equal("WARN N$AME Message 3", lines[2]);
+            Assert.Equal("ERROR N$AME Message 4", lines[3]);
+            Assert.Equal("SUCCESS N$AME Message 5", lines[4]);
         }
 
-        [Test]
+        [Fact]
         public void FileAppenderTest()
         {
             var file = Executable.Relative("Logs", "nunit-log.txt");
@@ -136,14 +135,14 @@ namespace SharpTools
             var lines = File.ReadAllLines(file);
 
             //no DEBUG to file
-            Assert.AreEqual(4, lines.Length);
-            Assert.AreEqual("INFO N$AME Message 2", lines[0]);
-            Assert.AreEqual("WARN N$AME Message 3", lines[1]);
-            Assert.AreEqual("ERROR N$AME Message 4", lines[2]);
-            Assert.AreEqual("SUCCESS N$AME Message 5", lines[3]);
+            Assert.Equal(4, lines.Length);
+            Assert.Equal("INFO N$AME Message 2", lines[0]);
+            Assert.Equal("WARN N$AME Message 3", lines[1]);
+            Assert.Equal("ERROR N$AME Message 4", lines[2]);
+            Assert.Equal("SUCCESS N$AME Message 5", lines[3]);
         }
 
-        [Test]
+        [Fact]
         public void StaticFormattersTest()
         {
             var log = new Log
@@ -158,17 +157,17 @@ namespace SharpTools
             };
 
             PatternLogFormatter.LINE.Format(log);
-            Assert.AreEqual("Message 2", log.Line);
+            Assert.Equal("Message 2", log.Line);
             PatternLogFormatter.TIMEONLY_MESSAGE.Format(log);
-            Assert.AreEqual("23:24:25.876 Message 2", log.Line);
+            Assert.Equal("23:24:25.876 Message 2", log.Line);
             PatternLogFormatter.TIMESTAMP_MESSAGE.Format(log);
-            Assert.AreEqual("2019-01-02 23:24:25.876 Message 2", log.Line);
+            Assert.Equal("2019-01-02 23:24:25.876 Message 2", log.Line);
             PatternLogFormatter.TIMESTAMP_LEVEL_MESSAGE.Format(log);
-            Assert.AreEqual("2019-01-02 23:24:25.876 INFO Message 2", log.Line);
+            Assert.Equal("2019-01-02 23:24:25.876 INFO Message 2", log.Line);
             PatternLogFormatter.TIMESTAMP_LEVEL_THREAD_MESSAGE.Format(log);
-            Assert.AreEqual("2019-01-02 23:24:25.876 INFO THREA$ Message 2", log.Line);
+            Assert.Equal("2019-01-02 23:24:25.876 INFO THREA$ Message 2", log.Line);
             PatternLogFormatter.TIMESTAMP_LEVEL_NAME_MESSAGE.Format(log);
-            Assert.AreEqual("2019-01-02 23:24:25.876 INFO NAM$ Message 2", log.Line);
+            Assert.Equal("2019-01-02 23:24:25.876 INFO NAM$ Message 2", log.Line);
         }
     }
 }
