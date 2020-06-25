@@ -10,7 +10,15 @@
     <PackageProjectUrl>https://github.com/samuelventura/SharpTools</PackageProjectUrl>  
     <License>https://www.apache.org/licenses/LICENSE-2.0</License>  
     <PackageTags></PackageTags>    
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <ItemGroup>
   </ItemGroup>
